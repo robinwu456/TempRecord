@@ -14,7 +14,10 @@ using System.Runtime.InteropServices;
 public static class FileUtil {
     // 新增Log
     public static void AppendLog(string logMsg) {
-        using (StreamWriter w = File.AppendText("./record.log")) {
+        FileInfo exeFile = new FileInfo(System.Reflection.Assembly.GetEntryAssembly().Location);
+        string logFileName = new FileInfo(exeFile.DirectoryName + "/record.log").FullName;
+
+        using (StreamWriter w = File.AppendText(logFileName)) {
             w.WriteLine("[{0}] {1}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), logMsg);
         }
     }

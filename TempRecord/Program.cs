@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -15,10 +16,13 @@ namespace TempRecord {
         string inputTemp;
 
         static void Main(string[] args) {
-            Program p = new Program();            
+            Program p = new Program();
 
             // 載入帳密
-            FileUtil.IniFile ini = new FileUtil.IniFile("./Settings.ini");
+            FileInfo exeFile = new FileInfo(System.Reflection.Assembly.GetEntryAssembly().Location);
+            string iniFileName = new FileInfo(exeFile.DirectoryName + "/Settings.ini").FullName;
+            Console.WriteLine("import " + iniFileName);
+            FileUtil.IniFile ini = new FileUtil.IniFile(iniFileName);
             p.account = ini.Read("Account");
             p.password = ini.Read("Password");
             p.inputTemp = ini.Read("Temperature");
