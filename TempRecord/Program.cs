@@ -34,20 +34,21 @@ namespace TempRecord {
         void AutoRecordTemp() {
             IWebDriver driver = new ChromeDriver();
 
-            // 開起官網
-            Console.WriteLine("開啟CRM：{0}", urlCRM);
-            driver.Navigate().GoToUrl(urlCRM);
-
-            // 輸入帳密
-            Console.WriteLine("輸入帳密\n帳號：{0}\n密碼：{1}", account, password);
-            var txtAccount = driver.FindElement(By.Id("Account"));
-            var txtPwd = driver.FindElement(By.Id("Password"));
-            txtAccount.SendKeys(account);
-            txtPwd.SendKeys(password);
-            Console.WriteLine("CRM登入");
-            txtPwd.SendKeys(OpenQA.Selenium.Keys.Enter);
-
             try {
+                // 開起官網
+                Console.WriteLine("開啟CRM：{0}", urlCRM);
+                driver.Navigate().GoToUrl(urlCRM);
+
+                // 輸入帳密
+                Console.WriteLine("輸入帳密\n帳號：{0}\n密碼：{1}", account, password);
+                var txtAccount = driver.FindElement(By.Id("Account"));
+                var txtPwd = driver.FindElement(By.Id("Password"));
+                txtAccount.SendKeys(account);
+                txtPwd.SendKeys(password);
+                Console.WriteLine("CRM登入");
+                txtPwd.SendKeys(OpenQA.Selenium.Keys.Enter);
+
+
                 // 開啟體溫回報視窗
                 Console.WriteLine("開起溫度視窗");
                 var cmdTempRecord = driver.FindElement(By.Id("showCovid19_CONFIRM"));
@@ -72,11 +73,11 @@ namespace TempRecord {
                 cmdSubmit.Click();
 
                 FileUtil.AppendLog("登錄溫度：" + inputTemp);
-                MessageBox.Show("溫度登錄完畢", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);    
-                
+                MessageBox.Show("溫度登錄完畢", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             } catch (Exception ex) {
                 Console.WriteLine("失敗原因：" + ex.ToString());
-                FileUtil.AppendLog("登錄失敗");
+                FileUtil.AppendLog("登錄失敗：" + ex.ToString());
                 MessageBox.Show("Fail", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
                 Console.WriteLine("關閉");
